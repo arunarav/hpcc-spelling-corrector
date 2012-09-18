@@ -5,7 +5,7 @@ at a distance of 1.
 This sample assumes that the alphabet, incorrectly spelled word and the dictionary are all in UPPER case.
 
 Further refactoring todo:
-(1) Optimize the join - currently this is taking 
+(1) Optimize the join - currently this is taking 10-20 seconds on a single node virtual machine
 (2) Distance of 2
 (3) Handle the situation where the word passed by the user is indeed a correctly spelled word. 
 
