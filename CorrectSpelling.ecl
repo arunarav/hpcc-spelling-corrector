@@ -17,7 +17,7 @@ spellCheckRec := RECORD
 	string word;
 END;
 
-dictionaryDS := DATASET('~sentilyze::hpcc::lexicon',spellCheckRec,CSV);
+dictionaryDS := DATASET('~spellcheck::hpcc::lexicon',spellCheckRec,CSV);
 
 wordCountRec := RECORD
 	string word := dictionaryDS.word; 
@@ -75,7 +75,7 @@ edits(string OrigWrd) := FUNCTION
 		string letter;
 	END;
 
-	alphabet := DATASET('~sentilyze::hpcc::alphabet',alphabet_RS,CSV);
+	alphabet := DATASET('~spellcheck::hpcc::alphabet',alphabet_RS,CSV);
 
 	testRecWithSetOfStrings := RECORD
 			DATASET(recordof(test)) aBunchOfWords;
