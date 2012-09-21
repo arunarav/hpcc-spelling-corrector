@@ -18,7 +18,7 @@ Notes:
 
 * Assumes that the alphabet, incorrectly spelled word and the dictionary are all in UPPER case.
 
-Further refactoring todo:
+Further refactoring to do:
     
     (1) Optimize the table operation - currently takes 2+ seconds even if the operation is marked as "UNSORTED".
     
