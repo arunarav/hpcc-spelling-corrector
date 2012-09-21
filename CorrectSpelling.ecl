@@ -4,20 +4,16 @@ at a distance of 1.
 
 This sample assumes that the alphabet, incorrectly spelled word and the dictionary are all in UPPER case.
 
-Further refactoring todo:
-(1) Optimize the join - currently this is taking 10-20 seconds on a single node virtual machine
-(2) Distance of 2
-(3) Handle the situation where the word passed by the user is indeed a correctly spelled word. 
-
-
 */
+
+
 import std;
 
 spellCheckRec := RECORD
 	string word;
 END;
 
-dictionaryDS := DATASET('~spellcheck::hpcc::lexicon',spellCheckRec,CSV);
+dictionaryDS := DATASET('~sentilyze::hpcc::lexicon',spellCheckRec,CSV);
 
 wordCountRec := RECORD
 	string word := dictionaryDS.word; 
@@ -31,7 +27,7 @@ This table operation gives us the count for each word.
 
  */
 
-dictWordsWithCount := TABLE(dictionaryDS,wordCountRec,word);
+dictWordsWithCount := TABLE(dictionaryDS,wordCountRec,word, UNSORTED, LOCAL);
 
 
 /*
@@ -75,7 +71,7 @@ edits(string OrigWrd) := FUNCTION
 		string letter;
 	END;
 
-	alphabet := DATASET('~spellcheck::hpcc::alphabet',alphabet_RS,CSV);
+	alphabet := DATASET('~sentilyze::hpcc::alphabet',alphabet_RS,CSV);
 
 	testRecWithSetOfStrings := RECORD
 			DATASET(recordof(test)) aBunchOfWords;
@@ -158,16 +154,15 @@ correctTheSpelling(string given_word) := FUNCTION
 
 	*/
 
-	// This join is taking atleast 15 seconds on the single node virtual machine - how do we speed this up?
+	
 	matched_wrd := JOIN(dictWordsWithCount, candidateWordsWithDistanceOfOne, LEFT.word= RIGHT.word);
 	
-	// Clarification: If NOSORT is included, the number of matched words is exactly one. Why is NOSORT interfering with the
-	// functionality of the resultset?
+	// TODO: Determine why including NOSORT results in the the number of matched words as exactly one
 	//matched_wrd := JOIN(dictWordsWithCount, candidateWordsWithDistanceOfOne, LEFT.word= RIGHT.word, NOSORT);
 	
 	
 	// Determine how many candidates were found
-	Count_matched_wrd := COUNT(matched_wrd);
+	Count_matched_wrd := COUNT(matched_wrd); 
 	
 	/*
 	If multiple words were found, determine the word with the highest occurence. If the candidates have equal counts, the first word
@@ -181,6 +176,8 @@ correctTheSpelling(string given_word) := FUNCTION
 
 // Return the word "FOR" with the max occurences of 5995
 return wordWithDistanceOfOne;
+
+
 
 END;
 
