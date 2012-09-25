@@ -7,7 +7,8 @@ Source Code
 =============
 ECL Source file: 
 
-* CorrectSpelling.ecl
+* CorrectSpelling.ecl (Corrects the spelling with a distance of 1 - eg. 'introductin' would be corrected as 'introduction')
+* CorrectSpelling_distance2.ecl (Corrects the spelling with a distance of 2 - eg. 'introdctin' would be corrected as 'introduction')
 
 Data files (both in the 'data' folder):
 
@@ -20,6 +21,8 @@ Notes:
 
 Further refactoring todo-
     
-    (1) Optimize the table operation - currently takes 2+ seconds even if the operation is marked as "UNSORTED".
+    (1) Optimize the lexicon table operation in 'distance 1' - currently takes 2+ seconds even if the operation is marked as "UNSORTED".
+	
+	(2) The PROJECT function in  'distance 2' takes 25+ seconds.
     
-    (2) Handle the situation where the word passed by the user is indeed a correctly spelled word. 
+    (3) Handle the situation where the word passed by the user is indeed a correctly spelled word. 
